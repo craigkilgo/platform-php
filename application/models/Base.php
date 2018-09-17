@@ -8,4 +8,6 @@ class Base extends CI_Model {
 	{
 		return true;
 	}
+
+
 }
