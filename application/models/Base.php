@@ -10,7 +10,7 @@ class Base extends CI_Model {
 	}
 
 	public function sha(){
-
+		return true;
 	}
 
 
