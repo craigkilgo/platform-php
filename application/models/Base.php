@@ -15,7 +15,7 @@ class Base extends CI_Model {
 
 	public function graph(){
 
-
+		return 'hi';
 	}
 
 
