@@ -20,6 +20,18 @@ class Welcome extends CI_Controller {
 	 */
 	public function index()
 	{
-		$this->load->view('welcome_message');
+		$this->load->model('Base');
+		$data['fiftyvalues'] = $this->Base->fiftyvalues();
+		$data['sorted_names'] = $this->Base->sort();
+		$data['primes'] = $this->Base->primes();
+		$data['checkForHash'] = $this->Base->checkForHash('acb80281e4e94213c7452a81fa08f61893eff5ffa62d50876da8d1fed4710d95');
+		$data['minmax'] = $this->Base->minmax();
+		$data['graph'] = $this->Base->graph();
+		$this->Base->insert();
+
+		$this->load->view('welcome_message',$data);
+
+
 	}
+
 }
