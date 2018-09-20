@@ -70,17 +70,15 @@ class Base extends CI_Model {
 		$result_set = $this->db->get('names');
 		$data = $result_set->result_array();
 
+
+
+
+		//this is the format needed for the display library
 		$graph['nodes'] = array();
 		$graph['edges'] = array();
-		/*
-		array_push($graph['nodes'],array("id"=>"2","x"=>3,"y"=>6,"size"=>1));
-		array_push($graph['nodes'],array("id"=>"3","x"=>5,"y"=>2,"size"=>1));
-		array_push($graph['nodes'],array("id"=>"4","x"=>6,"y"=>4,"size"=>1));
 
-		array_push($graph['edges'],array("id"=>"1","source"=>"2","target"=>"3"));
-		array_push($graph['edges'],array("id"=>"2","source"=>"3","target"=>"4"));
-		array_push($graph['edges'],array("id"=>"3","source"=>"4","target"=>"2"));
-*/
+		$sgraph = array();
+
 		$i = 0;
 		foreach($data as $d){
 			array_push($graph['nodes'],array("id"=>$d['id'],"x"=>rand(1,100),"y"=>rand(1,100),"size"=>1));
@@ -90,7 +88,44 @@ class Base extends CI_Model {
 				$i++;
 			}
 
+			//make graph for searching too
+			$sgraph[(string)$d['id']] = $edges;
+
 		}
+
+
+
+		//bfs to find path between nodes in question
+		function bfs_path($graph, $start, $end) {
+			$queue = new SplQueue();
+			# Enqueue the path
+			$queue->enqueue([$start]);
+			$visited = [$start];
+			while ($queue->count() > 0) {
+				$path = $queue->dequeue();
+				# Get the last node on the path
+				# so we can check if we're at the end
+				$node = $path[sizeof($path) - 1];
+
+				if ($node === $end) {
+					return $path;
+				}
+				foreach ($graph[$node] as $neighbour) {
+					if (!in_array($neighbour, $visited)) {
+						$visited[] = $neighbour;
+						# Build new path appending the neighbour then and enqueue it
+						$new_path = $path;
+						$new_path[] = $neighbour;
+						$queue->enqueue($new_path);
+					}
+				};
+			}
+			return false;
+		}
+
+
+		$graph['path'] = bfs_path($sgraph,'6','77');
+
 
 		return $graph;
 	}

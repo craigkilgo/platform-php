@@ -53,6 +53,13 @@ Given the values, insert a row into a database table
 	<div class="card">
 	<h3>graph</h3>
 	Shortest path from "Carlos <span style="color: #4286f4; font-weight:bold;">(6)</span>" to "Matthew <span style="color: #ff2da0; font-weight:bold;">(77)</span>":
+	<h4><?php foreach($graph['path'] as $key => $p){
+		echo $p;
+		if($key!=count($graph['path'])-1){
+			echo ' => ';
+		}
+
+	}?></h4>
 	<div id="graph-container">
 	</div>
 	</div>

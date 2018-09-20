@@ -9,5 +9,12 @@ class M extends CI_Controller {
         $this->Base->generateFriends();
     }
 
+    public function showSgraph(){
 
+        $this->load->model('Base');
+        $data['data'] = $this->Base->graph();
+
+        $this->load->view('simple',$data);
+
+    }
 }
